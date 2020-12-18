@@ -6,7 +6,7 @@ import next from 'next';
 import {polyfill} from './polyfills';
 import crypto from 'crypto';
 // Get the supported languages by looking for translations in the `lang/` dir.
-const supportedLanguages = globSync('./compiled-lang/*.json').map(f =>
+const supportedLanguages = globSync('./lang/*.json').map(f =>
   basename(f, '.json')
 );
 

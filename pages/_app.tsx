@@ -29,16 +29,16 @@ function getMessages(locales: string | string[] = ['en']) {
     locale = locales[i];
     switch (locale) {
       case 'fr':
-        langBundle = import('../compiled-lang/fr.json');
+        langBundle = import('../lang/fr.json');
         break;
       case 'en-GB':
-        langBundle = import('../compiled-lang/en-GB.json');
+        langBundle = import('../lang/en-GB.json');
         break;
       case 'zh-Hans-CN':
-        langBundle = import('../compiled-lang/zh-Hans-CN.json');
+        langBundle = import('../lang/zh-Hans-CN.json');
         break;
       case 'zh-Hant-HK':
-        langBundle = import('../compiled-lang/zh-Hant-HK.json');
+        langBundle = import('../lang/zh-Hant-HK.json');
         break;
       default:
         break;
@@ -46,7 +46,7 @@ function getMessages(locales: string | string[] = ['en']) {
     }
   }
   if (!langBundle) {
-    return ['en', import('../compiled-lang/en.json')];
+    return ['en', import('../lang/en.json')];
   }
   return [locale, langBundle];
 }

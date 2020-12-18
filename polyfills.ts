@@ -3,6 +3,8 @@ import {shouldPolyfill as shouldPolyfillPluralRules} from '@formatjs/intl-plural
 import {shouldPolyfill as shouldPolyfillNumberFormat} from '@formatjs/intl-numberformat/should-polyfill';
 import {shouldPolyfill as shouldPolyfillDateTimeFormat} from '@formatjs/intl-datetimeformat/should-polyfill';
 import {shouldPolyfill as shouldPolyfillRelativeTimeFormat} from '@formatjs/intl-relativetimeformat/should-polyfill';
+import { shouldPolyfill as shouldPolyfillLocale } from '@formatjs/intl-locale/should-polyfill'
+import { shouldPolyfill as shouldPolyfillListFormat } from '@formatjs/intl-listformat/should-polyfill'
 
 /**
  * Dynamically polyfill Intl API & its locale data
@@ -10,11 +12,42 @@ import {shouldPolyfill as shouldPolyfillRelativeTimeFormat} from '@formatjs/intl
  */
 export async function polyfill(locale: string = '') {
   const dataPolyfills = [];
+
   // Polyfill Intl.getCanonicalLocales if necessary
   if (shouldPolyfillGetCanonicalLocales()) {
     await import(
       /* webpackChunkName: "intl-getcanonicallocales" */ '@formatjs/intl-getcanonicallocales/polyfill'
     );
+  }
+
+  if (shouldPolyfillLocale()) {
+    console.log('------ SHOULD POLYFILL LOCALE ------')
+    await import('@formatjs/intl-locale/polyfill')
+  }
+
+  if (shouldPolyfillListFormat()) {
+    console.log('------ SHOULD POLYFILL LISTFORMAT------')
+    await import('@formatjs/intl-listformat/polyfill')
+  }
+
+  if ((Intl as any).ListFormat.polyfilled) {
+    console.log('------ ADD LISTFORMAT LOCALE DATA------')
+    switch (locale) {
+      default:
+        dataPolyfills.push(
+          import(
+            /* webpackChunkName: "intl-listformat" */ '@formatjs/intl-listformat/locale-data/en'
+          )
+        );
+        break;
+      case 'fr':
+        dataPolyfills.push(
+          import(
+            /* webpackChunkName: "intl-listformat" */ '@formatjs/intl-listformat/locale-data/fr'
+          )
+        );
+        break;
+    }
   }
 
   // Polyfill Intl.PluralRules if necessary

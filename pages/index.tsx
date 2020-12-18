@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {FormattedMessage, FormattedNumber, useIntl} from 'react-intl';
+import {FormattedMessage, FormattedNumber, useIntl, FormattedList} from 'react-intl';
 import Head from 'next/head';
 import Layout from '../components/Layout';
 
@@ -27,6 +27,8 @@ export default function Home() {
       <p>
         <FormattedNumber value={1000} />
       </p>
+
+      <FormattedList value={['one', 'two', 'three']} />
     </Layout>
   );
 }
